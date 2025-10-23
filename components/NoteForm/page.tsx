@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import css from "./NoteForm.module.css";
 import type { FormikHelpers } from "formik";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNote } from "../../services/noteService";
+import { createNote } from "@/lib/api";
 import type { NewNote } from "../../types/note";
 
 interface OrderFormValues {

@@ -1,4 +1,3 @@
-"use client";
 import { useState, useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { useDebouncedCallback } from "use-debounce";

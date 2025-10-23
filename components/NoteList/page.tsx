@@ -1,7 +1,7 @@
 // Компонент для отображения списка заметок
 
-import { deleteNote } from "../../services/noteService";
-import type { Note } from "../../types/note"; // Импорт типа Note
+import { deleteNote } from "@/lib/api";
+import type { Note } from "@/types/note"; // Импорт типа Note
 import css from "./NoteList.module.css"; // Импорт стилей
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
