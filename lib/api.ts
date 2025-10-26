@@ -30,3 +30,4 @@ export const deleteNote = async (noteId: string) => {
   const response = await axios.delete<Note>(`/notes/${noteId}`);
   return response.data;
 };
+export default fetchNotes;
