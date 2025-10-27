@@ -1,4 +1,4 @@
-import NoteDetailsClient from "../NoteDetails.client";
+import NoteDetailsClient from "./NoteDetails.client";
 import {
   HydrationBoundary,
   QueryClient,
