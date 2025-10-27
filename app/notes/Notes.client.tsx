@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { useDebouncedCallback } from "use-debounce";
 import { useQuery } from "@tanstack/react-query";
@@ -28,10 +28,21 @@ export default function NotesClient() {
     placeholderData: (previousData) => previousData,
     refetchOnMount: false,
   });
+
+  // 1. Debounced функция: сохранено имя handleChange, ожидает ТОЛЬКО строку
   const handleChange = useDebouncedCallback((value: string) => {
     setQuery(value);
     setPage(1);
   }, 300);
+
+  // 2. ФУНКЦИЯ-ОБЕРТКА: принимает Event, как требует SearchBox (Event -> String)
+  const handleSearchEvent = (e: ChangeEvent<HTMLInputElement>) => {
+    // Извлекаем строковое значение
+    const value = e.target.value;
+
+    // Передаем извлеченную строку в debounced функцию handleChange
+    handleChange(value);
+  };
 
   const notes: Note[] = data?.notes ?? [];
   const totalPages: number = data?.totalPages ?? 0;
@@ -41,6 +52,7 @@ export default function NotesClient() {
       toast.error(`No notes found for your request: "${query}".`);
     }
   }, [isSuccess, notes.length, query]);
+
   const handlePageClick = ({ selected }: { selected: number }) => {
     const newPage = selected + 1;
     setPage(newPage);
@@ -50,7 +62,8 @@ export default function NotesClient() {
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
-        <SearchBox value={query} onSearch={handleChange} />
+        {/* ИСПРАВЛЕНИЕ: Передаем функцию-обертку handleSearchEvent */}
+        <SearchBox value={query} onSearch={handleSearchEvent} />
 
         {totalPages > 1 && (
           <Pagination
