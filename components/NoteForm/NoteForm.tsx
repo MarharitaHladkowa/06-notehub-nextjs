@@ -52,7 +52,15 @@ export default function NoteForm({ onClose }: NoteFormProps) {
     actions: FormikHelpers<OrderFormValues>
   ) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    mutate(values);
+    // ИСПРАВЛЕНИЕ: Преобразуем OrderFormValues в NewNote,
+    // гарантируя, что content всегда является строкой.
+    const newNote: NewNote = {
+      title: values.title,
+      content: values.content || "", // Если undefined или null, используем пустую строку
+      tag: values.tag,
+    };
+
+    mutate(newNote); // Теперь здесь передается объект типа NewNote
     actions.resetForm();
   };
 
@@ -62,27 +70,35 @@ export default function NoteForm({ onClose }: NoteFormProps) {
       validationSchema={OrderSchema}
       onSubmit={handleSubmit}
     >
+           {" "}
       {({ isSubmitting, isValid, dirty }) => {
         return (
           <Form className={css.form}>
+                       {" "}
             <div className={css.formGroup}>
-              <ErrorMessage name="title" component="p" className={css.error} />
-              <label htmlFor={`${fieldId}-title`}>Title</label>
+                           {" "}
+              <ErrorMessage name="title" component="p" className={css.error} /> 
+                          <label htmlFor={`${fieldId}-title`}>Title</label>
+                           {" "}
               <Field
                 id={`${fieldId}-title`}
                 type="text"
                 name="title"
                 className={css.input}
               />
+                         {" "}
             </div>
-
+                       {" "}
             <div className={css.formGroup}>
+                           {" "}
               <ErrorMessage
                 name="content"
                 component="p"
                 className={css.error}
               />
+                           {" "}
               <label htmlFor={`${fieldId}-content`}>Content</label>
+                           {" "}
               <Field
                 as="textarea"
                 id={`${fieldId}-content`}
@@ -90,45 +106,54 @@ export default function NoteForm({ onClose }: NoteFormProps) {
                 rows={8}
                 className={css.textarea}
               />
+                         {" "}
             </div>
-
+                       {" "}
             <div className={css.formGroup}>
-              <label htmlFor={`${fieldId}-tag`}>Tag</label>
-              <ErrorMessage name="tag" component="p" className={css.error} />
+                            <label htmlFor={`${fieldId}-tag`}>Tag</label>
+                           {" "}
+              <ErrorMessage name="tag" component="p" className={css.error} />   
+                       {" "}
               <Field
                 as="select"
                 id={`${fieldId}-tag`}
                 name="tag"
                 className={css.select}
               >
-                <option value="Todo">Todo</option>
-                <option value="Work">Work</option>
-                <option value="Personal">Personal</option>
-                <option value="Meeting">Meeting</option>
-                <option value="Shopping">Shopping</option>
+                                <option value="Todo">Todo</option>             
+                  <option value="Work">Work</option>               {" "}
+                <option value="Personal">Personal</option>               {" "}
+                <option value="Meeting">Meeting</option>               {" "}
+                <option value="Shopping">Shopping</option>             {" "}
               </Field>
+                         {" "}
             </div>
-
+                       {" "}
             <div className={css.actions}>
+                           {" "}
               <button
                 type="button"
                 onClick={onClose}
                 className={css.cancelButton}
               >
-                Cancel
+                                Cancel              {" "}
               </button>
-
+                           {" "}
               <button
                 type="submit"
                 className={css.submitButton}
                 disabled={isSubmitting || !isValid || !dirty || isPending}
               >
-                {isSubmitting ? "Creating..." : "Create"}
+                                {isSubmitting ? "Creating..." : "Create"}       
+                     {" "}
               </button>
+                         {" "}
             </div>
+                     {" "}
           </Form>
         );
       }}
+         {" "}
     </Formik>
   );
 }
