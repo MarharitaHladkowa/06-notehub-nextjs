@@ -1,3 +1,4 @@
+"use client";
 import { useId } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -77,8 +78,8 @@ export default function NoteForm({ onClose }: NoteFormProps) {
             <div className={css.formGroup}>
                            {" "}
               <ErrorMessage name="title" component="p" className={css.error} /> 
-                          <label htmlFor={`${fieldId}-title`}>Title</label>
-                           {" "}
+                          <label htmlFor={`${fieldId}-title`}>Title</label>     
+                     {" "}
               <Field
                 id={`${fieldId}-title`}
                 type="text"
@@ -96,8 +97,7 @@ export default function NoteForm({ onClose }: NoteFormProps) {
                 className={css.error}
               />
                            {" "}
-              <label htmlFor={`${fieldId}-content`}>Content</label>
-                           {" "}
+              <label htmlFor={`${fieldId}-content`}>Content</label>             {" "}
               <Field
                 as="textarea"
                 id={`${fieldId}-content`}
@@ -109,8 +109,8 @@ export default function NoteForm({ onClose }: NoteFormProps) {
             </div>
                        {" "}
             <div className={css.formGroup}>
-                            <label htmlFor={`${fieldId}-tag`}>Tag</label>
-                           {" "}
+                            <label htmlFor={`${fieldId}-tag`}>Tag</label>       
+                   {" "}
               <ErrorMessage name="tag" component="p" className={css.error} />   
                        {" "}
               <Field
