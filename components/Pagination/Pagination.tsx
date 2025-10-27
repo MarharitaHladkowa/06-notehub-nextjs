@@ -1,3 +1,4 @@
+"use client"; // Компонент пагинации для навигации между страницами
 import ReactPaginate from "react-paginate";
 import css from "./Pagination.module.css";
 
