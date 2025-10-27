@@ -1,5 +1,5 @@
 "use client";
-import { useState, ChangeEvent, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { useDebouncedCallback } from "use-debounce";
 import { useQuery } from "@tanstack/react-query";
@@ -30,14 +30,10 @@ export default function NotesClient() {
   });
 
   // 1. Debounced функция: сохранено имя handleChange, ожидает ТОЛЬКО строку
-  const handleChange = useDebouncedCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
-      setQuery(value);
-      setPage(1);
-    },
-    300
-  );
+  const handleChange = useDebouncedCallback((value: string) => {
+    setQuery(value);
+    setPage(1);
+  }, 300);
 
   const notes: Note[] = data?.notes ?? [];
   const totalPages: number = data?.totalPages ?? 0;

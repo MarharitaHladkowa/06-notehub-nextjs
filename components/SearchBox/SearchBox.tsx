@@ -5,7 +5,7 @@ import css from "./SearchBox.module.css";
 interface SearchBoxProps {
   value?: string;
 
-  onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearch: (value: string) => void;
 }
 
 export default function SearchBox({ value = "", onSearch }: SearchBoxProps) {
@@ -14,7 +14,7 @@ export default function SearchBox({ value = "", onSearch }: SearchBoxProps) {
       className={css.input}
       type="text"
       placeholder="Search notes"
-      onChange={onSearch}
+      onChange={(e) => onSearch(e.target.value)}
       value={value}
       aria-label="Search notes"
     />
