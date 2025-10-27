@@ -1,5 +1,5 @@
 "use client"; // Модальное окно для відображення контенту поверх основного UI
-import { use, useEffect, type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import css from "./Modal.module.css";
 
