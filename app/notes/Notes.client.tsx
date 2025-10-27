@@ -30,19 +30,14 @@ export default function NotesClient() {
   });
 
   // 1. Debounced функция: сохранено имя handleChange, ожидает ТОЛЬКО строку
-  const handleChange = useDebouncedCallback((value: string) => {
-    setQuery(value);
-    setPage(1);
-  }, 300);
-
-  // 2. ФУНКЦИЯ-ОБЕРТКА: принимает Event, как требует SearchBox (Event -> String)
-  const handleSearchEvent = (e: ChangeEvent<HTMLInputElement>) => {
-    // Извлекаем строковое значение
-    const value = e.target.value;
-
-    // Передаем извлеченную строку в debounced функцию handleChange
-    handleChange(value);
-  };
+  const handleChange = useDebouncedCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setQuery(value);
+      setPage(1);
+    },
+    300
+  );
 
   const notes: Note[] = data?.notes ?? [];
   const totalPages: number = data?.totalPages ?? 0;
@@ -63,7 +58,7 @@ export default function NotesClient() {
     <div className={css.app}>
       <header className={css.toolbar}>
         {/* ИСПРАВЛЕНИЕ: Передаем функцию-обертку handleSearchEvent */}
-        <SearchBox value={query} onSearch={handleSearchEvent} />
+        <SearchBox value={query} onSearch={handleChange} />
 
         {totalPages > 1 && (
           <Pagination
