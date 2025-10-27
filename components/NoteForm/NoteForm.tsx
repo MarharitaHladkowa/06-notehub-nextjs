@@ -70,7 +70,6 @@ export default function NoteForm({ onClose }: NoteFormProps) {
       validationSchema={OrderSchema}
       onSubmit={handleSubmit}
     >
-           {" "}
       {({ isSubmitting, isValid, dirty }) => {
         return (
           <Form className={css.form}>
@@ -153,7 +152,6 @@ export default function NoteForm({ onClose }: NoteFormProps) {
           </Form>
         );
       }}
-         {" "}
     </Formik>
   );
 }
