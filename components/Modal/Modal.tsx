@@ -1,35 +1,29 @@
-"use client"; // Модальное окно для відображення контенту поверх основного UI
-import { useEffect, type ReactNode } from "react";
+"use client"; // Важно: делает компонент клиентским, чтобы использовать DOM API
+
+import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import css from "./Modal.module.css";
-
-const modalRoot =
-  document.getElementById("modal-root") ||
-  (() => {
-    const div = document.createElement("div");
-    div.id = "modal-root";
-    document.body.appendChild(div);
-    return div;
-  })();
 
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  children: ReactNode; // Тип для дочерних элементов (текст, JSX, числа и т.д.)
+  children: ReactNode; // Тип для дочерних элементов
 }
 
 export default function Modal({ isOpen, onClose, children }: ModalProps) {
+  // Используем состояние для отслеживания монтирования компонента на клиенте.
+  const [isMounted, setIsMounted] = useState(false); // Этот useEffect выполняется только один раз на клиенте, когда компонент монтируется.
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   useEffect(() => {
     if (!isOpen) {
-      // Якщо вікно закрите, нічого не робимо
       return;
     }
 
-    // --- 1. Керування прокруткою ---
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    // --- 2. Обробник ESC ---
+    // --- 1. Обработка клавиши ESC ---
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
@@ -37,17 +31,17 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
     };
     window.addEventListener("keydown", handleEscape);
 
-    // --- 3. Функція очищення (CLEANUP) ---
+    // --- 2. Керування прокруткою ---
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden"; // --- 3. Функція очищення (CLEANUP) ---
+
     return () => {
-      // Відновлюємо прокрутку
       document.body.style.overflow = originalOverflow;
-      // Видаляємо обробник клавіатури
       window.removeEventListener("keydown", handleEscape);
     };
   }, [isOpen, onClose]);
-  // ------------------------------------------------------------------
-
-  if (!isOpen) {
+  // Если модальное окно закрыто или мы еще не монтировались на клиенте, не рендерим ничего.
+  if (!isOpen || !isMounted) {
     return null;
   }
 
@@ -56,6 +50,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
       onClose();
     }
   };
+
   return createPortal(
     <div
       className={css.backdrop}
@@ -63,17 +58,18 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
       role="dialog"
       aria-modal="true"
     >
+           {" "}
       <div
-        className={css.modal}
-        // Остановка всплытия, чтобы клик внутри модального окна не закрывал его
+        className={css.modal} // Остановка всплытия, чтобы клик внутри модального окна не закрывал его
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Кнопка закрытия (X) */}
+                {/* Кнопка закрытия (X) */}       {" "}
         <button
           onClick={onClose}
           className={css.closeButton}
           aria-label="Закрыть модальное окно"
         >
+                   {" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -82,16 +78,20 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
             stroke="currentColor"
             strokeWidth={2}
           >
+                       {" "}
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
               d="M6 18L18 6M6 6l12 12"
             />
+                     {" "}
           </svg>
+                 {" "}
         </button>
-        {children}
+                {children}     {" "}
       </div>
+         {" "}
     </div>,
-    modalRoot // DOM-элемент, куда будет рендериться этот JSX (за пределами App)
+    document.body // Рендерим прямо в body, как в вашем примере
   );
 }
