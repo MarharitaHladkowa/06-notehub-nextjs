@@ -13,6 +13,7 @@ const NoteDetailsClient = () => {
   } = useQuery({
     queryKey: ["note", id],
     queryFn: () => fetchNoteById(id),
+    refetchOnMount: false,
   });
   return (
     <>
