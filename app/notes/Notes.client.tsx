@@ -23,7 +23,7 @@ export default function NotesClient() {
   const [page, setPage] = useState<number>(1);
 
   const { data, isLoading, isError, error, isSuccess } = useQuery({
-    queryKey: ["notes", page, query],
+    queryKey: ["notes", query, page],
     queryFn: () => fetchNotes(query, page),
     placeholderData: (previousData) => previousData,
     refetchOnMount: false,
