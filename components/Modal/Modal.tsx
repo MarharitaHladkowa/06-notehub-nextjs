@@ -55,7 +55,6 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
       aria-modal="true"
     >
       <div className={css.modal} onClick={(e) => e.stopPropagation()}>
-        <button onClick={onClose} aria-label="Закрыть модальное окно"></button>
         {children}
       </div>
     </div>,
