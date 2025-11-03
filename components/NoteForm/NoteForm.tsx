@@ -74,9 +74,9 @@ export default function NoteForm({ onClose }: NoteFormProps) {
       {({ isSubmitting, isValid, dirty }) => {
         return (
           <Form className={css.form}>
-                       {" "}
+            {" "}
             <div className={css.formGroup}>
-                           {" "}
+              {" "}
               <ErrorMessage name="title" component="p" className={css.error} /> 
                           <label htmlFor={`${fieldId}-title`}>Title</label>     
                      {" "}
@@ -104,51 +104,41 @@ export default function NoteForm({ onClose }: NoteFormProps) {
                 name="content"
                 rows={8}
                 className={css.textarea}
-              />
-                         {" "}
-            </div>
-                       {" "}
+              />{" "}
+            </div>{" "}
             <div className={css.formGroup}>
-                            <label htmlFor={`${fieldId}-tag`}>Tag</label>       
-                   {" "}
-              <ErrorMessage name="tag" component="p" className={css.error} />   
-                       {" "}
+              <label htmlFor={`${fieldId}-tag`}>Tag</label>             {" "}
+              <ErrorMessage name="tag" component="p" className={css.error} />   {" "}
               <Field
                 as="select"
                 id={`${fieldId}-tag`}
                 name="tag"
                 className={css.select}
               >
-                                <option value="Todo">Todo</option>             
-                  <option value="Work">Work</option>               {" "}
-                <option value="Personal">Personal</option>               {" "}
-                <option value="Meeting">Meeting</option>               {" "}
-                <option value="Shopping">Shopping</option>             {" "}
-              </Field>
-                         {" "}
-            </div>
-                       {" "}
+                <option value="Todo">Todo</option>
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>{" "}
+                <option value="Meeting">Meeting</option>{" "}
+                <option value="Shopping">Shopping</option>{" "}
+              </Field>{" "}
+            </div>{" "}
             <div className={css.actions}>
-                           {" "}
+              {" "}
               <button
                 type="button"
                 onClick={onClose}
                 className={css.cancelButton}
               >
-                                Cancel              {" "}
-              </button>
-                           {" "}
+                Cancel{" "}
+              </button>{" "}
               <button
                 type="submit"
                 className={css.submitButton}
                 disabled={isSubmitting || !isValid || !dirty || isPending}
               >
-                                {isSubmitting ? "Creating..." : "Create"}       
-                     {" "}
+                {isSubmitting ? "Creating..." : "Create"}{" "}
               </button>
-                         {" "}
             </div>
-                     {" "}
           </Form>
         );
       }}
